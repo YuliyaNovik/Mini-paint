@@ -23,7 +23,7 @@ namespace Mini_paint {
 
         public void Draw(Ellipse ellipse) {
             System.Windows.Shapes.Ellipse drawEllipse = new System.Windows.Shapes.Ellipse();
-            drawEllipse.Stroke = brush;
+            drawEllipse.Fill = brush;
             drawEllipse.Width = ellipse.Side1;
             drawEllipse.Height = ellipse.Side2;
 
@@ -33,31 +33,39 @@ namespace Mini_paint {
         }
 
         public void Draw(Hexagon hexagon) {
+            System.Windows.Shapes.Polygon drawHexagon = new System.Windows.Shapes.Polygon();
+            drawHexagon.Fill = brush;
+            PointCollection collection = new PointCollection();
             foreach (System.Windows.Shapes.Line item in hexagon.LineList) {
-                item.Stroke = brush;
-                Canvas.SetLeft(item, hexagon.X);
-                Canvas.SetTop(item, hexagon.Y);
-                canvas.Children.Add(item);
+                collection.Add(new System.Windows.Point(item.X1, item.Y1));
             }
+            drawHexagon.Points = collection;
+            Canvas.SetLeft(drawHexagon, hexagon.X);
+            Canvas.SetTop(drawHexagon, hexagon.Y);
+            canvas.Children.Add(drawHexagon);
         }
 
         public void Draw(Rectangle rectangle) {
             System.Windows.Shapes.Rectangle drawRectangle = new System.Windows.Shapes.Rectangle();
             drawRectangle.Width = rectangle.Side1;
             drawRectangle.Height = rectangle.Side2;
-            drawRectangle.Stroke = brush;
+            drawRectangle.Fill = brush;
             Canvas.SetLeft(drawRectangle, rectangle.X);
             Canvas.SetTop(drawRectangle, rectangle.Y);
             canvas.Children.Add(drawRectangle);
         }
 
         public void Draw(Triangle triangle) {
+            System.Windows.Shapes.Polygon drawTriangle = new System.Windows.Shapes.Polygon();
+            drawTriangle.Fill = brush;
+            PointCollection collection = new PointCollection();
             foreach (System.Windows.Shapes.Line item in triangle.LineList) {
-                item.Stroke = brush;
-                Canvas.SetLeft(item, triangle.X);
-                Canvas.SetTop(item, triangle.Y);
-                canvas.Children.Add(item);
+                collection.Add(new System.Windows.Point(item.X1, item.Y1));
             }
+            drawTriangle.Points = collection;
+            Canvas.SetLeft(drawTriangle, triangle.X);
+            Canvas.SetTop(drawTriangle, triangle.Y);
+            canvas.Children.Add(drawTriangle);
         }
     }
 }
