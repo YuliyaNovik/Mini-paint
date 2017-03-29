@@ -1,65 +1,47 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Mini_paint.Figure;
 
 namespace Mini_paint {
     public partial class MainWindow : Window {
         Painter painter;
-        Figure.Figure figure;
+        bool ClickBtn = false;
 
         public MainWindow() {
             InitializeComponent();
             this.painter = new Painter(canvas);
         }
 
-        private void CreateCircle() {
-
+        private void CreateCircle(int x, int y, int side) {
+            painter.Draw(new Figure.Circle(x, y, side));
         }
-        private void CreateEllipse() {
-
+        private void CreateEllipse(int x, int y, int side1, int side2) {
+            painter.Draw(new Figure.Ellipse(x, y, side1, side2));
         }
-        private void CreateFigure() {
-
+        private void CreateHexagon(int x, int y, int side) {
+            painter.Draw(new Figure.Hexagon(x, y, side));
         }
-        private void CreateHexagon() {
-
+        private void CreateRectangle(int x, int y, int side1, int side2) {
+            painter.Draw(new Figure.Rectangle(x, y, side1, side2));
         }
-        private void CreateRectangle() {
-
+        private void CreateSquare(int x, int y, int side) {
+            painter.Draw(new Figure.Square(x, y, side));
         }
-        private void CreateTriangle() {
-
+        private void CreateTriangle(int x, int y, int side) {
+            painter.Draw(new Figure.Triangle(x, y, side));
         }
 
         private void PanelOptionConfig(string str1, string str2, bool visible) {
             labelSide1.Content = str1;
             labelSide2.Content = str2;
             side2.Visibility = (visible) ? Visibility.Visible : Visibility.Hidden;
-
         }
 
         private bool CheckOption() {
             if (side1.Text == "" || (side2.IsVisible && side2.Text == "")) {
-                MessageBox.Show("Error");
                 return false;
-            } else {
-                int num;
-                if (!Int32.TryParse(side1.Text, out num) || (side2.IsVisible && !Int32.TryParse(side2.Text, out num))) {
-                    return false;
-                }
-            } 
+            }
             return true;
         }
 
@@ -88,32 +70,56 @@ namespace Mini_paint {
             }
         }
 
-        private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
-            Point point = Mouse.GetPosition(canvas);
-            CheckOption();
+        private void CreateDrawObject(Point point) {
+
+            int sideLen1, sideLen2;
+            if (!Int32.TryParse(side1.Text, out sideLen1)) {
+                return;
+            }
+            if (!Int32.TryParse(side2.Text, out sideLen2) && side2.IsVisible) {
+                return;
+            }
 
             switch (listFigure.SelectedIndex) {
                   case 0: {
-
+                        CreateCircle((int) point.X, (int) point.Y, sideLen1);
                         break;
                 } case 1: {
-
+                        CreateEllipse((int)point.X, (int)point.Y, sideLen1, sideLen2);
                         break;
                 } case 2: {
-
+                        CreateHexagon((int)point.X, (int)point.Y, sideLen1);
                         break;
                 } case 3: {
-
+                        CreateRectangle((int)point.X, (int)point.Y, sideLen1, sideLen2);
                         break;
                 } case 4: {
-
+                        CreateSquare((int)point.X, (int)point.Y, sideLen1);
                         break;
                 } case 5: {
-
+                        CreateTriangle((int)point.X, (int)point.Y, sideLen1);
                         break;
                 }
 
             }
+        }
+
+        private void DrawOnCanvas() {
+            Point point = Mouse.GetPosition(canvas);
+            CheckOption();
+            CreateDrawObject(point);
+        }
+
+        private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+            ClickBtn = true;
+        }
+
+        private void Canvas_MouseMove(object sender, MouseEventArgs e) {
+            if (ClickBtn) DrawOnCanvas();
+        }
+
+        private void Canvas_MouseUp(object sender, MouseButtonEventArgs e) {
+            ClickBtn = false;
         }
     }
 }
