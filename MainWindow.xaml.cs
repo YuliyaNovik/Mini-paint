@@ -71,6 +71,9 @@ namespace Mini_paint {
         }
 
         private void CreateDrawObject(Point point) {
+            if (point.X > 370) {
+                return;
+            }
 
             int sideLen1, sideLen2;
             if (!Int32.TryParse(side1.Text, out sideLen1)) {
@@ -104,14 +107,22 @@ namespace Mini_paint {
             }
         }
 
+        private void CheckMouseOver(Point point) {
+            if (point.X >= 370 || point.X <= 3 || point.Y >= 450 || point.Y <= 10) {
+                ClickBtn = false;
+            }
+        }
+
         private void DrawOnCanvas() {
             Point point = Mouse.GetPosition(canvas);
+            CheckMouseOver(point);
             CheckOption();
             CreateDrawObject(point);
         }
 
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             ClickBtn = true;
+            DrawOnCanvas();
         }
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e) {
@@ -120,6 +131,27 @@ namespace Mini_paint {
 
         private void Canvas_MouseUp(object sender, MouseButtonEventArgs e) {
             ClickBtn = false;
+        }
+
+        private void ListColor_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            switch (listColor.SelectedIndex) {
+                  case 0: {
+                        painter.SetBrush(255, 255, 255);
+                        break;
+                } case 1: {
+                        painter.SetBrush(0, 0, 0);
+                        break;
+                } case 2: {
+                        painter.SetBrush(255, 0, 0);
+                        break;
+                } case 3: {
+                        painter.SetBrush(0, 255, 0);
+                        break;
+                } case 4: {
+                        painter.SetBrush(0, 0, 255);
+                        break;
+                }
+            }
         }
     }
 }
