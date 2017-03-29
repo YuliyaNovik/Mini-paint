@@ -14,6 +14,12 @@ namespace Mini_paint {
 
         public Painter(Canvas canvas) {
             this.canvas = canvas;
+            this.InitCanvas();
+        }
+
+        private void InitCanvas() {
+            this.brush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+            this.Draw(new Rectangle(0, 0, 1000, 1000));
             this.brush = new SolidColorBrush(Color.FromRgb(0, 0, 0));
         }
 
