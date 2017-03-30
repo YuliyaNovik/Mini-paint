@@ -10,44 +10,58 @@ using Mini_paint.Figure;
 namespace Mini_paint {
     class Painter {
         Canvas canvas;
-        Brush brush;
+        Brush brushFill, brushStroke;
 
         public Painter(Canvas canvas) {
             this.canvas = canvas;
             this.InitCanvas();
         }
 
-        private void InitCanvas() {
-            this.brush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-            this.Draw(new Rectangle(0, 0, 1000, 1000));
-            this.brush = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+        public void ClearPainter() {
+            InitCanvas();
         }
 
-        public void SetBrush(byte r, byte g, byte b) {
-            this.brush = new SolidColorBrush(Color.FromRgb(r, g, b));
+        private void InitCanvas() {
+            this.brushFill = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+            this.Draw(new Rectangle(0, 0, 2000, 2000));
+            this.brushFill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+            this.brushStroke = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+        }
+
+        public void SetBrushFill(byte r, byte g, byte b) {
+            this.brushFill = new SolidColorBrush(Color.FromRgb(r, g, b));
+        }
+
+        public void SetBrushStroke(byte r, byte g, byte b) {
+            this.brushStroke = new SolidColorBrush(Color.FromRgb(r, g, b));
         }
 
         public void Draw(Ellipse ellipse) {
             System.Windows.Shapes.Ellipse drawEllipse = new System.Windows.Shapes.Ellipse();
-            drawEllipse.Fill = brush;
+            drawEllipse.Fill = brushFill;
+            drawEllipse.Stroke = brushStroke;
             drawEllipse.Width = ellipse.Side1;
             drawEllipse.Height = ellipse.Side2;
 
-            Canvas.SetLeft(drawEllipse, ellipse.X);
-            Canvas.SetTop(drawEllipse, ellipse.Y);
+            Canvas.SetLeft(drawEllipse, ellipse.X-ellipse.Side1/2);
+            Canvas.SetTop(drawEllipse, ellipse.Y-ellipse.Side2/2);
             canvas.Children.Add(drawEllipse);
         }
 
         public void Draw(Hexagon hexagon) {
             System.Windows.Shapes.Polygon drawHexagon = new System.Windows.Shapes.Polygon();
-            drawHexagon.Fill = brush;
+            drawHexagon.Fill = brushFill;
+            drawHexagon.Stroke = brushStroke;
             PointCollection collection = new PointCollection();
+            int centerX = 0, centerY = 0;
             foreach (System.Windows.Shapes.Line item in hexagon.LineList) {
+                centerX += (int) item.X1;
+                centerY += (int) item.Y1;
                 collection.Add(new System.Windows.Point(item.X1, item.Y1));
             }
             drawHexagon.Points = collection;
-            Canvas.SetLeft(drawHexagon, hexagon.X);
-            Canvas.SetTop(drawHexagon, hexagon.Y);
+            Canvas.SetLeft(drawHexagon, hexagon.X-centerX/6);
+            Canvas.SetTop(drawHexagon, hexagon.Y-centerY/6);
             canvas.Children.Add(drawHexagon);
         }
 
@@ -55,22 +69,27 @@ namespace Mini_paint {
             System.Windows.Shapes.Rectangle drawRectangle = new System.Windows.Shapes.Rectangle();
             drawRectangle.Width = rectangle.Side1;
             drawRectangle.Height = rectangle.Side2;
-            drawRectangle.Fill = brush;
-            Canvas.SetLeft(drawRectangle, rectangle.X);
-            Canvas.SetTop(drawRectangle, rectangle.Y);
+            drawRectangle.Fill = brushFill;
+            drawRectangle.Stroke = brushStroke;
+            Canvas.SetLeft(drawRectangle, rectangle.X-rectangle.Side1/2);
+            Canvas.SetTop(drawRectangle, rectangle.Y - rectangle.Side2/2);
             canvas.Children.Add(drawRectangle);
         }
 
         public void Draw(Triangle triangle) {
             System.Windows.Shapes.Polygon drawTriangle = new System.Windows.Shapes.Polygon();
-            drawTriangle.Fill = brush;
+            drawTriangle.Fill = brushFill;
+            drawTriangle.Stroke = brushStroke;
             PointCollection collection = new PointCollection();
+            int centerX = 0, centerY = 0;
             foreach (System.Windows.Shapes.Line item in triangle.LineList) {
+                centerX += (int)item.X1;
+                centerY += (int)item.Y1;
                 collection.Add(new System.Windows.Point(item.X1, item.Y1));
             }
             drawTriangle.Points = collection;
-            Canvas.SetLeft(drawTriangle, triangle.X);
-            Canvas.SetTop(drawTriangle, triangle.Y);
+            Canvas.SetLeft(drawTriangle, triangle.X-centerX/3);
+            Canvas.SetTop(drawTriangle, triangle.Y-centerY/3);
             canvas.Children.Add(drawTriangle);
         }
     }
