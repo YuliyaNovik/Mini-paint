@@ -41,14 +41,17 @@ namespace Mini_paint {
             figure.Stroke = brushStroke;
         }
 
+        public void SetCanvasMargin(System.Windows.Shapes.Shape figure, double marginLeft, double marginTop) {
+            Canvas.SetLeft(figure, marginLeft);
+            Canvas.SetTop(figure, marginTop);
+        }
+
         public void Draw(Ellipse ellipse) {
             System.Windows.Shapes.Ellipse drawEllipse = new System.Windows.Shapes.Ellipse();
             ChangeBrushSettings(drawEllipse);
             drawEllipse.Width = ellipse.Side1;
             drawEllipse.Height = ellipse.Side2;
-
-            Canvas.SetLeft(drawEllipse, ellipse.X-ellipse.Side1/2);
-            Canvas.SetTop(drawEllipse, ellipse.Y-ellipse.Side2/2);
+            SetCanvasMargin(drawEllipse, ellipse.X-ellipse.Side1/2, ellipse.Y-ellipse.Side2/2);
             canvas.Children.Add(drawEllipse);
         }
 
@@ -63,8 +66,7 @@ namespace Mini_paint {
                 collection.Add(new System.Windows.Point(item.X1, item.Y1));
             }
             drawHexagon.Points = collection;
-            Canvas.SetLeft(drawHexagon, hexagon.X-centerX/6);
-            Canvas.SetTop(drawHexagon, hexagon.Y-centerY/6);
+            SetCanvasMargin(drawHexagon, hexagon.X-centerX/6, hexagon.Y-centerY/6);
             canvas.Children.Add(drawHexagon);
         }
 
@@ -73,8 +75,7 @@ namespace Mini_paint {
             drawRectangle.Width = rectangle.Side1;
             drawRectangle.Height = rectangle.Side2;
             ChangeBrushSettings(drawRectangle);
-            Canvas.SetLeft(drawRectangle, rectangle.X-rectangle.Side1/2);
-            Canvas.SetTop(drawRectangle, rectangle.Y - rectangle.Side2/2);
+            SetCanvasMargin(drawRectangle, rectangle.X-rectangle.Side1/2, rectangle.Y - rectangle.Side2/2);
             canvas.Children.Add(drawRectangle);
         }
 
@@ -89,8 +90,7 @@ namespace Mini_paint {
                 collection.Add(new System.Windows.Point(item.X1, item.Y1));
             }
             drawTriangle.Points = collection;
-            Canvas.SetLeft(drawTriangle, triangle.X-centerX/3);
-            Canvas.SetTop(drawTriangle, triangle.Y-centerY/3);
+            SetCanvasMargin(drawTriangle, triangle.X-centerX/3, triangle.Y-centerY/3);
             canvas.Children.Add(drawTriangle);
         }
     }
