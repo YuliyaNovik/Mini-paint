@@ -41,18 +41,20 @@ namespace Mini_paint {
             figure.Stroke = brushStroke;
         }
 
-        public void SetCanvasMargin(System.Windows.Shapes.Shape figure, double marginLeft, double marginTop) {
+        public void DrawOnCanvas(System.Windows.Shapes.Shape figure, double marginLeft, double marginTop) {
             Canvas.SetLeft(figure, marginLeft);
             Canvas.SetTop(figure, marginTop);
-        }
+            canvas.Children.Add(figure);
+
+        }  
 
         public void Draw(Ellipse ellipse) {
             System.Windows.Shapes.Ellipse drawEllipse = new System.Windows.Shapes.Ellipse();
             ChangeBrushSettings(drawEllipse);
             drawEllipse.Width = ellipse.Side1;
             drawEllipse.Height = ellipse.Side2;
-            SetCanvasMargin(drawEllipse, ellipse.X-ellipse.Side1/2, ellipse.Y-ellipse.Side2/2);
-            canvas.Children.Add(drawEllipse);
+            DrawOnCanvas(drawEllipse, ellipse.X-ellipse.Side1/2, ellipse.Y-ellipse.Side2/2);
+
         }
 
         public void Draw(Hexagon hexagon) {
@@ -66,8 +68,7 @@ namespace Mini_paint {
                 collection.Add(new System.Windows.Point(item.X1, item.Y1));
             }
             drawHexagon.Points = collection;
-            SetCanvasMargin(drawHexagon, hexagon.X-centerX/6, hexagon.Y-centerY/6);
-            canvas.Children.Add(drawHexagon);
+            DrawOnCanvas(drawHexagon, hexagon.X-centerX/6, hexagon.Y-centerY/6);
         }
 
         public void Draw(Rectangle rectangle) {
@@ -75,8 +76,7 @@ namespace Mini_paint {
             drawRectangle.Width = rectangle.Side1;
             drawRectangle.Height = rectangle.Side2;
             ChangeBrushSettings(drawRectangle);
-            SetCanvasMargin(drawRectangle, rectangle.X-rectangle.Side1/2, rectangle.Y - rectangle.Side2/2);
-            canvas.Children.Add(drawRectangle);
+            DrawOnCanvas(drawRectangle, rectangle.X-rectangle.Side1/2, rectangle.Y - rectangle.Side2/2);
         }
 
         public void Draw(Triangle triangle) {
@@ -90,8 +90,7 @@ namespace Mini_paint {
                 collection.Add(new System.Windows.Point(item.X1, item.Y1));
             }
             drawTriangle.Points = collection;
-            SetCanvasMargin(drawTriangle, triangle.X-centerX/3, triangle.Y-centerY/3);
-            canvas.Children.Add(drawTriangle);
+            DrawOnCanvas(drawTriangle, triangle.X-centerX/3, triangle.Y-centerY/3);
         }
     }
 }
