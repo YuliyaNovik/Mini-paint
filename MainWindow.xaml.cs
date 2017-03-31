@@ -151,23 +151,19 @@ namespace Mini_paint {
                 case 0: {
                         painter.SetBrushStroke(255, 255, 255);
                         break;
-                    }
-                case 1: {
+                } case 1: {
                         painter.SetBrushStroke(0, 0, 0);
                         break;
-                    }
-                case 2: {
+                } case 2: {
                         painter.SetBrushStroke(255, 0, 0);
                         break;
-                    }
-                case 3: {
+                } case 3: {
                         painter.SetBrushStroke(0, 255, 0);
                         break;
-                    }
-                case 4: {
+                } case 4: {
                         painter.SetBrushStroke(0, 0, 255);
                         break;
-                    }
+                }
             }
         }
     }
