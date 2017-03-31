@@ -22,10 +22,10 @@ namespace Mini_paint {
         }
 
         private void InitCanvas() {
-            this.brushFill = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+            SetBrushFill(255, 255, 255);
             this.Draw(new Rectangle(0, 0, 2000, 2000));
-            this.brushFill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-            this.brushStroke = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+            SetBrushFill(0, 0, 0);
+            SetBrushStroke(0, 0, 0);
         }
 
         public void SetBrushFill(byte r, byte g, byte b) {
