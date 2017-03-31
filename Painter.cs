@@ -36,10 +36,14 @@ namespace Mini_paint {
             this.brushStroke = new SolidColorBrush(Color.FromRgb(r, g, b));
         }
 
+        public void ChangeBrushSettings(System.Windows.Shapes.Shape figure) {
+            figure.Fill = brushFill;
+            figure.Stroke = brushStroke;
+        }
+
         public void Draw(Ellipse ellipse) {
             System.Windows.Shapes.Ellipse drawEllipse = new System.Windows.Shapes.Ellipse();
-            drawEllipse.Fill = brushFill;
-            drawEllipse.Stroke = brushStroke;
+            ChangeBrushSettings(drawEllipse);
             drawEllipse.Width = ellipse.Side1;
             drawEllipse.Height = ellipse.Side2;
 
@@ -50,8 +54,7 @@ namespace Mini_paint {
 
         public void Draw(Hexagon hexagon) {
             System.Windows.Shapes.Polygon drawHexagon = new System.Windows.Shapes.Polygon();
-            drawHexagon.Fill = brushFill;
-            drawHexagon.Stroke = brushStroke;
+            ChangeBrushSettings(drawHexagon);
             PointCollection collection = new PointCollection();
             int centerX = 0, centerY = 0;
             foreach (System.Windows.Shapes.Line item in hexagon.LineList) {
@@ -69,8 +72,7 @@ namespace Mini_paint {
             System.Windows.Shapes.Rectangle drawRectangle = new System.Windows.Shapes.Rectangle();
             drawRectangle.Width = rectangle.Side1;
             drawRectangle.Height = rectangle.Side2;
-            drawRectangle.Fill = brushFill;
-            drawRectangle.Stroke = brushStroke;
+            ChangeBrushSettings(drawRectangle);
             Canvas.SetLeft(drawRectangle, rectangle.X-rectangle.Side1/2);
             Canvas.SetTop(drawRectangle, rectangle.Y - rectangle.Side2/2);
             canvas.Children.Add(drawRectangle);
@@ -78,8 +80,7 @@ namespace Mini_paint {
 
         public void Draw(Triangle triangle) {
             System.Windows.Shapes.Polygon drawTriangle = new System.Windows.Shapes.Polygon();
-            drawTriangle.Fill = brushFill;
-            drawTriangle.Stroke = brushStroke;
+            ChangeBrushSettings(drawTriangle);
             PointCollection collection = new PointCollection();
             int centerX = 0, centerY = 0;
             foreach (System.Windows.Shapes.Line item in triangle.LineList) {
